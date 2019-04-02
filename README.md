@@ -1,0 +1,2 @@
+# phf
+Perfect Hash Function
