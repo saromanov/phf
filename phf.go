@@ -40,13 +40,13 @@ func (p *PHF) hashKeys(keys []string) [][]entry {
 		h := p.hash(k)
 		result[i] = entry{key: k, value: h}
 	}
-	return entry
+	return result
 }
 
 // hash is a method for hashing string
 func (p *PHF) hash(s string) string {
 	hasher := sha1.New()
-	hasher.Write(bv)
+	hasher.Write([]byte(s))
 	return base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 }
 
