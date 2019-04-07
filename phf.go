@@ -37,3 +37,12 @@ func (p *PHF) hashKeys(keys []string) [][]entry {
 	}
 	return entry
 }
+
+// nextPower2 returns next power of 2 from input
+func nextPower2(n int) int {
+	i := 1
+	for i < n {
+		i *= 2
+	}
+	return i
+}
