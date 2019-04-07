@@ -1,5 +1,9 @@
 package phf
 
+import "errors"
+
+var errNoKeys = errors.New("keys is not defined")
+
 // PHF defines main struct
 type PHF struct {
 	values []int32
@@ -19,14 +23,17 @@ func New() *PHF {
 }
 
 // Add provides adding of the keys
-func (p *PHF) Add(keys []string) {
-
+func (p *PHF) Add(keys []string) error {
+	if len(keys) == 0 {
+		return errNoKeys
+	}
+	return nil
 }
 
-func (p *PHF) hashKeys(keys []string)[][]entry {
+func (p *PHF) hashKeys(keys []string) [][]entry {
 	result := make([][]entry, len(keys))
 	for i, k := range keys {
-		result[i] = entry{key:k}
+		result[i] = entry{key: k}
 	}
 	return entry
 }
