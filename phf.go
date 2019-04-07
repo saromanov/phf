@@ -1,6 +1,10 @@
 package phf
 
-import "errors"
+import (
+	"crypto/sha1"
+	"encoding/base64"
+	"errors"
+)
 
 var errNoKeys = errors.New("keys is not defined")
 
@@ -33,9 +37,17 @@ func (p *PHF) Add(keys []string) error {
 func (p *PHF) hashKeys(keys []string) [][]entry {
 	result := make([][]entry, len(keys))
 	for i, k := range keys {
-		result[i] = entry{key: k}
+		h := p.hash(k)
+		result[i] = entry{key: k, value: h}
 	}
 	return entry
+}
+
+// hash is a method for hashing string
+func (p *PHF) hash(s string) string {
+	hasher := sha1.New()
+	hasher.Write(bv)
+	return base64.URLEncoding.EncodeToString(hasher.Sum(nil))
 }
 
 // nextPower2 returns next power of 2 from input
