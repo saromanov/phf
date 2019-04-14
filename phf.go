@@ -34,6 +34,19 @@ func (p *PHF) Add(keys []string) error {
 	return nil
 }
 
+// Get returns index by the key
+func (p *PHF) Get(s string) int32 {
+	size := uint64(len(p.values))
+	hash := p.hash(s)
+	i := hash & (size - 1)
+	seed := p.seeds[i]
+	if seed < 0 {
+		return p.values[-seed-1]
+	}
+
+	return p.values[xorshiftMult64(uint64(seed)+hash) & (size - 1)]
+}
+
 func (p *PHF) hashKeys(keys []string) [][]entry {
 	result := make([][]entry, len(keys))
 	for i, k := range keys {
