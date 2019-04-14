@@ -44,7 +44,7 @@ func (p *PHF) Get(s string) int32 {
 		return p.values[-seed-1]
 	}
 
-	return p.values[xorshiftMult64(uint64(seed)+hash) & (size - 1)]
+	return p.values[xorshift64Star(uint64(seed)+hash)&(size-1)]
 }
 
 func (p *PHF) hashKeys(keys []string) [][]entry {
@@ -70,4 +70,13 @@ func nextPower2(n int) int {
 		i *= 2
 	}
 	return i
+}
+
+// implementation of xor shift 64 star algorithm
+// https://en.wikipedia.org/wiki/Xorshift#xorshift*
+func xorShift64Star(x uint64) uint64 {
+	x ^= x >> 12
+	x ^= x << 25
+	x ^= x >> 27
+	return x * 2685821657736338717
 }
